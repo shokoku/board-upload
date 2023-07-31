@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>글수정</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+  <script defer th:src="@{/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<section class="container mt-3">
+  <h2 class="text-center mb-3">글수정</h2>
+  <form th:action method="post" th:object="${board}">
+    <div class="mb-3">
+      <input type="text" th:field="*{title}" class="form-control" placeholder="제목">
+    </div>
+
+    <div class="mb-3">
+      <textarea th:field="*{content}" rows="20" class="form-control" placeholder="내용"></textarea>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <button class="w-100 btn btn-primary btn-lg"
+                type="submit" th:text="저장"></button>
+      </div>
+      <div class="col">
+        <button class="w-100 btn btn-secondary btn-lg"
+                th:onclick="|location.href='@{/board/{id}(id=${board.id})}'|"
+                type="button" th:text="취소"></button>
+      </div>
+    </div>
+  </form>
+</section>
+</body>
+</html>

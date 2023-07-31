@@ -39,4 +39,13 @@ public class BoardService {
     }
     throw new RuntimeException();
   }
+
+  public void edit(Long id, Board board) {
+    Optional<Board> optionalBoard = boardRepository.findById(id);
+    if (optionalBoard.isPresent()) {
+      optionalBoard.get().setTitle(board.getTitle());
+      optionalBoard.get().setContent(board.getContent());
+      boardRepository.save(optionalBoard.get());
+    }
+  }
 }
