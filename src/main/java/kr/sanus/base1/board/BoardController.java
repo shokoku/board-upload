@@ -57,6 +57,12 @@ public class BoardController {
     return "redirect:/board/" + id;
   }
 
+  @GetMapping("/{id}/delete")
+  public String delete(@PathVariable Long id) {
+    boardService.delete(id);
+    return "redirect:/board";
+  }
+
   @GetMapping("/test")
   public String test() {
 

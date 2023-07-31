@@ -26,6 +26,11 @@
                 type="button" th:text="수정"></button>
       </div>
       <div class="col">
+        <button class="w-100 btn btn-danger btn-lg"
+                th:onclick="|location.href='@{/board/{id}/delete(id=${board.id})}'|"
+                type="button" th:text="삭제"></button>
+      </div>
+      <div class="col">
         <button class="w-100 btn btn-secondary btn-lg"
                 th:onclick="|location.href='@{/board}'|"
                 type="button" th:text="목록"></button>

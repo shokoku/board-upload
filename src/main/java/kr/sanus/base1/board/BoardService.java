@@ -48,4 +48,9 @@ public class BoardService {
       boardRepository.save(optionalBoard.get());
     }
   }
+
+  public void delete(Long id) {
+    boardRepository.deleteById(id);
+
+  }
 }
