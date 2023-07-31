@@ -24,8 +24,8 @@ public class BoardController {
   }
 
   @PostMapping("/add")
-  public String save(Board board) {
-    boardService.save(board);
+  public String save(@ModelAttribute("board") BoardSaveForm form) {
+    boardService.save(form);
     return "redirect:/board";
   }
 
@@ -63,15 +63,4 @@ public class BoardController {
     return "redirect:/board";
   }
 
-  @GetMapping("/test")
-  public String test() {
-
-    for (int i = 1; i < 100; i++) {
-      Board board = new Board();
-      board.setTitle("테스트 " + i + " 제목");
-      board.setContent("테스트 " + i + " 내용");
-      boardService.save(board);
-    }
-    return "redirect:/";
-  }
 }

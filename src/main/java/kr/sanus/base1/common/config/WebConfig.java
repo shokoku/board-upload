@@ -1,4 +1,4 @@
-package kr.sanus.base1.config;
+package kr.sanus.base1.common.config;
 
 import java.util.List;
 import org.springframework.context.annotation.Configuration;

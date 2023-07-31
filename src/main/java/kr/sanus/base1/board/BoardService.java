@@ -1,7 +1,9 @@
 package kr.sanus.base1.board;
 
 
+import java.io.IOException;
 import java.util.Optional;
+import kr.sanus.base1.common.util.FileStore;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -14,8 +16,17 @@ import org.springframework.stereotype.Service;
 public class BoardService {
 
   private final BoardRepository boardRepository;
+  private final FileStore fileStore;
 
-  public void save(Board board) {
+  public void save(BoardSaveForm form) {
+    Board board = new Board();
+    board.setTitle(form.getTitle());
+    board.setContent(form.getContent());
+    try {
+      board.setAttachFile(fileStore.storeFile(form.getAttachFile()));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
     boardRepository.save(board);
   }
 

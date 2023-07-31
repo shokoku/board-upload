@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import kr.sanus.base1.common.dto.UploadFile;
 import lombok.Data;
 
 @Data
@@ -15,5 +16,7 @@ public class Board {
   private Long id;
   private String title;
   private String content;
+
+  private UploadFile attachFile;
 
 }
