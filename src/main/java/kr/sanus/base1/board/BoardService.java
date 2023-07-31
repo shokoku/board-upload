@@ -1,7 +1,9 @@
 package kr.sanus.base1.board;
 
-import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,7 +16,8 @@ public class BoardService {
     boardRepository.save(board);
   }
 
-  public List<Board> findAll() {
-    return boardRepository.findAll();
+  public Page<Board> findAll(int page) {
+    Pageable pageable = PageRequest.of(page, 10);
+    return boardRepository.findAll(pageable);
   }
 }
