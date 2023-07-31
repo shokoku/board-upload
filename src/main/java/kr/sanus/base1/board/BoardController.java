@@ -1,6 +1,8 @@
 package kr.sanus.base1.board;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -62,5 +64,11 @@ public class BoardController {
     boardService.delete(id);
     return "redirect:/board";
   }
+
+  @GetMapping("/attach/{id}")
+  public ResponseEntity<Resource> downloadAttach(@PathVariable Long id) {
+    return boardService.getAttach(id);
+  }
+
 
 }

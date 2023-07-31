@@ -25,7 +25,9 @@
     <thead>
     <tr>
       <th>번호</th>
-      <th>제목</th>
+      <th class="w-50 text-center">제목</th>
+      <th>첨부파일</th>
+      <th>이미지</th>
     </tr>
     </thead>
 
@@ -33,6 +35,8 @@
     <tr th:each="board, loop : ${paging}">
       <td th:text="${paging.getTotalElements() - (paging.getNumber() * paging.getSize()) - loop.index}"></td>
       <td><a th:href="@{|/board/${board.id}|}" th:text="${board.title}"></a></td>
+      <td><a th:text="${board.attachFile.uploadFileName}" th:href="@{|/board/attach/${board.id}|}"></a></td>
+      <td th:text="${board.imageFiles.size()}"></td>
     </tr>
     </tbody>
   </table>
