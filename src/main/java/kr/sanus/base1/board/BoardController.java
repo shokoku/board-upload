@@ -1,8 +1,6 @@
 package kr.sanus.base1.board;
 
-import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,10 +28,22 @@ public class BoardController {
   }
 
   @GetMapping()
-  public String list(Model model, @RequestParam(value = "page", defaultValue = "1") int page) {
-    System.out.println("page = " + page);
-    Page<Board> paging = boardService.findAll(page-1);
-    model.addAttribute("paging", paging);
+  public String list(Model model, @RequestParam(defaultValue = "1") int page,
+                                  @RequestParam(defaultValue = "") String kw) {
+    model.addAttribute("paging", boardService.findAll(page-1, kw));
+    model.addAttribute("kw", kw);
     return "board/list";
+  }
+
+  @GetMapping("/test")
+  public String test() {
+
+    for (int i = 1; i < 100; i++) {
+      Board board = new Board();
+      board.setTitle("테스트 " + i + " 제목");
+      board.setContent("테스트 " + i + " 내용");
+      boardService.save(board);
+    }
+    return "redirect:/";
   }
 }
