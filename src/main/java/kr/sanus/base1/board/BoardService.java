@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,7 +20,8 @@ public class BoardService {
   }
 
   public Page<Board> findAll(int page, String type, String kw) {
-    Pageable pageable = PageRequest.of(page, 10);
+    Pageable pageable = PageRequest.of(page, 10, Sort.by("id").descending());
+
     if (kw != null && !kw.isEmpty()) {
       if (type.equals("title")) {
         return boardRepository.findByTitleContaining(kw, pageable);
