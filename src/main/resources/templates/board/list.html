@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>글목록</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+  <script defer th:src="@{/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<section class="container mt-3">
+  <h2 class="text-center mb-3">글목록</h2>
+  <table class="table mb-3">
+      <thead>
+      <tr>
+        <th>번호</th>
+        <th>제목</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr th:each="board, loop : ${boards}">
+          <td th:text="${boards.size() - loop.index}"></td>
+          <td th:text="${board.title}"></td>
+      </tr>
+      </tbody>
+  </table>
+
+  <div class="mb-3">
+    <button class="btn btn-dark w-100" th:onclick="|location.href='@{/board/add}'|">글쓰기</button>
+  </div>
+</section>
+</body>
+</html>
