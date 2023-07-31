@@ -6,17 +6,43 @@
   <title>글상세</title>
   <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
   <script defer th:src="@{/js/bootstrap.min.js}"></script>
+  <style>
+    a {
+      text-decoration: none;
+      color: black;
+    }
+    a:hover {
+      color: black;
+    }
+
+    .img-thumbnail{
+      width: 100px;
+      height: 100px;
+    }
+  </style>
 </head>
 <body>
 <section class="container mt-3">
   <h2 class="text-center mb-3">글상세</h2>
-  <form th:action method="post" th:object="${board}">
+  <form th:object="${board}">
     <div class="mb-3">
       <input type="text" th:field="*{title}" class="form-control" placeholder="제목" readonly>
     </div>
 
     <div class="mb-3">
       <textarea th:field="*{content}" rows="20" class="form-control" placeholder="내용" readonly></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label for="attachFile">첨부파일 : </label>
+      <a id="attachFile" th:text="${board.attachFile.uploadFileName}" th:href="@{|/board/attach/${board.id}|}"></a>
+    </div>
+
+    <div class="mb-3">
+      <label for="imageFiles">이미지 </label>
+      <span id="imageFiles" th:each="imageFile, loop : ${board.imageFiles}">
+        <img class="img-thumbnail" th:src="|/images/${imageFile.getStoreFileName()}|">
+      </span>
     </div>
 
     <div class="row">

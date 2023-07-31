@@ -70,5 +70,4 @@ public class BoardController {
     return boardService.getAttach(id);
   }
 
-
 }

@@ -9,4 +9,4 @@ spring:
       ddl-auto: update
 
 file:
-  dir: c:/file/
+  dir: C:/workspace/spring/base1/src/main/resources/static/images/
