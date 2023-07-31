@@ -24,6 +24,7 @@ public class BoardService {
     board.setContent(form.getContent());
     try {
       board.setAttachFile(fileStore.storeFile(form.getAttachFile()));
+      board.setImageFiles(fileStore.storeFiles(form.getImageFiles()));
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
