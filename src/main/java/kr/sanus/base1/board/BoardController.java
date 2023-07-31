@@ -29,9 +29,11 @@ public class BoardController {
 
   @GetMapping()
   public String list(Model model, @RequestParam(defaultValue = "1") int page,
+                                  @RequestParam(defaultValue = "") String type,
                                   @RequestParam(defaultValue = "") String kw) {
-    model.addAttribute("paging", boardService.findAll(page-1, kw));
+    model.addAttribute("paging", boardService.findAll(page-1, type, kw));
     model.addAttribute("kw", kw);
+    model.addAttribute("type", type);
     return "board/list";
   }
 

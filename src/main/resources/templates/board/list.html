@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -7,27 +8,32 @@
   <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
   <script defer th:src="@{/js/bootstrap.min.js}"></script>
 </head>
+
 <body>
 <section class="container mt-3">
   <h2 class="text-center mb-3">글목록</h2>
   <table class="table mb-3">
-      <thead>
-      <tr>
-        <th>번호</th>
-        <th>제목</th>
-      </tr>
-      </thead>
+    <thead>
+    <tr>
+      <th>번호</th>
+      <th>제목</th>
+    </tr>
+    </thead>
 
-      <tbody>
-      <tr th:each="board, loop : ${paging}">
-        <td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
-          <td th:text="${board.title}"></td>
-      </tr>
-      </tbody>
+    <tbody>
+    <tr th:each="board, loop : ${paging}">
+      <td th:text="${paging.getTotalElements() - (paging.getNumber() * paging.getSize()) - loop.index}"></td>
+      <td th:text="${board.title}"></td>
+    </tr>
+    </tbody>
   </table>
 
   <div class="w-25 m-auto mb-3">
     <div class="input-group">
+      <select class="form-select form-select-sm" id="search_type">
+        <option value="title">제목</option>
+        <option value="content">내용</option>
+      </select>
       <input type="text" id="search_kw" class="form-control form-control-sm" th:value="${kw}">
       <button class="btn btn-sm btn-outline-secondary" type="button" id="btn_search">찾기</button>
     </div>
@@ -35,19 +41,16 @@
 
   <div th:if="${!paging.isEmpty()}">
     <ul class="pagination justify-content-center">
-      <li class="page-upload" th:classappend="${!paging.hasPrevious} ? 'disabled'">
-        <a class="page-link" href="javascript:void(0)" th:data-page="${paging.number}">
+      <li class="page-upload" th:classappend="${!paging.hasPrevious()} ? 'disabled'">
+        <a class="page-link" href="javascript:void(0)" th:data-page="${paging.getNumber()}">
           <span>이전</span>
         </a>
       </li>
-      <li th:each="page: ${#numbers.sequence(1, paging.totalPages)}"
-          th:if="${page >= paging.number-4 and page <= paging.number+6}"
-          th:classappend="${page == paging.number+1} ? 'active'"
-          class="page-upload">
+      <li th:each="page: ${#numbers.sequence(1, paging.getTotalPages())}" th:if="${page >= paging.getNumber() - 4 and page <= paging.getNumber() + 6}" th:classappend="${page == paging.getNumber() + 1} ? 'active'" class="page-upload">
         <a th:text="${page}" class="page-link" href="javascript:void(0)" th:data-page="${page}"></a>
       </li>
-      <li class="page-upload" th:classappend="${!paging.hasNext} ? 'disabled'">
-        <a class="page-link" href="javascript:void(0)" th:data-page="${paging.number+2}">
+      <li class="page-upload" th:classappend="${!paging.hasNext()} ? 'disabled'">
+        <a class="page-link" href="javascript:void(0)" th:data-page="${paging.getNumber() + 2}">
           <span>다음</span>
         </a>
       </li>
@@ -55,8 +58,9 @@
   </div>
 
   <form th:action method="get" id="searchForm">
+    <input type="hidden" id="page" name="page" th:value="${paging.getNumber() + 1}">
+    <input type="hidden" id="type" name="type" th:value="${type}">
     <input type="hidden" id="kw" name="kw" th:value="${kw}">
-    <input type="hidden" id="page" name="page" th:value="${paging.number+1}">
   </form>
 
   <div class="mb-3 text-center">
@@ -66,40 +70,59 @@
 <script>
   function submitSearchForm() {
     const search_kw = document.getElementById('search_kw').value;
-    submitForm(search_kw, 1);
+    const search_type = document.getElementById('search_type').value;
+    submitForm(search_kw, 1, search_type);
   }
 
   function handlePageLinkClick() {
     const page = this.dataset.page;
-    const search_kw = document.getElementById('search_kw').value;
-    submitForm(search_kw, page);
+    const search_kw = document.getElementById('kw').value;
+    const search_type = document.getElementById('type').value;
+    submitForm(search_kw, page, search_type);
   }
 
-  function submitForm(search_kw, page) {
+  function submitForm(search_kw, page, search_type) {
     const kw_input = document.getElementById('kw');
     const page_input = document.getElementById('page');
+    const type_input = document.getElementById('type');
     kw_input.value = search_kw;
     page_input.value = page;
+    type_input.value = search_type;
     document.getElementById('searchForm').submit();
   }
 
   document.addEventListener('DOMContentLoaded', function() {
+    const search_type_select = document.getElementById("search_type");
+    const existing_search_type = document.getElementById('type').value;
+
+    if (existing_search_type === '') {
+      search_type_select.value = "title";
+    } else {
+      search_type_select.value = existing_search_type;
+    }
+
     const page_elements = document.getElementsByClassName("page-link");
     Array.from(page_elements).forEach(element => {
       element.addEventListener('click', handlePageLinkClick);
     });
 
     const btn_search = document.getElementById("btn_search");
-    btn_search.addEventListener('click', submitSearchForm);
+    btn_search.addEventListener('click', function() {
+      const search_type = document.getElementById('search_type').value;
+      document.getElementById('type').value = search_type;
+      submitSearchForm();
+    });
 
     const input_search = document.getElementById("search_kw");
     input_search.addEventListener('keypress', function(event) {
       if (event.key === 'Enter') {
+        const search_type = document.getElementById('search_type').value;
+        document.getElementById('type').value = search_type;
         submitSearchForm();
       }
     });
   });
-
 </script>
 </body>
+
 </html>

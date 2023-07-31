@@ -8,6 +8,5 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
   Page<Board> findAll(Pageable pageable);
   Page<Board> findByTitleContaining(String title, Pageable pageable);
-
-
+  Page<Board> findByContentContaining(String content, Pageable pageable);
 }

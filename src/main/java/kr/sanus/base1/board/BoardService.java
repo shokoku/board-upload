@@ -17,10 +17,14 @@ public class BoardService {
     boardRepository.save(board);
   }
 
-  public Page<Board> findAll(int page, String kw) {
+  public Page<Board> findAll(int page, String type, String kw) {
     Pageable pageable = PageRequest.of(page, 10);
     if (kw != null && !kw.isEmpty()) {
-      return boardRepository.findByTitleContaining(kw, pageable);
+      if (type.equals("title")) {
+        return boardRepository.findByTitleContaining(kw, pageable);
+      } else if (type.equals("content")) {
+        return boardRepository.findByContentContaining(kw, pageable);
+      }
     }
     return boardRepository.findAll(pageable);
   }
