@@ -3,26 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>글쓰기</title>
+  <title>글상세</title>
   <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
   <script defer th:src="@{/js/bootstrap.min.js}"></script>
 </head>
 <body>
 <section class="container mt-3">
-  <h2 class="text-center mb-3">글쓰기</h2>
+  <h2 class="text-center mb-3">글상세</h2>
   <form th:action method="post" th:object="${board}">
     <div class="mb-3">
-      <input type="text" th:field="*{title}" class="form-control" placeholder="제목">
+      <input type="text" th:field="*{title}" class="form-control" placeholder="제목" readonly>
     </div>
 
     <div class="mb-3">
-      <textarea th:field="*{content}" rows="20" class="form-control" placeholder="내용"></textarea>
+      <textarea th:field="*{content}" rows="20" class="form-control" placeholder="내용" readonly></textarea>
     </div>
 
     <div class="row">
       <div class="col">
         <button class="w-100 btn btn-primary btn-lg"
-                type="submit" th:text="저장"></button>
+                th:onclick="|location.href='@{/board/{id}/edit(id=${board.id})}'|"
+                type="button" th:text="수정"></button>
       </div>
       <div class="col">
         <button class="w-100 btn btn-secondary btn-lg"

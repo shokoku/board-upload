@@ -1,6 +1,7 @@
 package kr.sanus.base1.board;
 
 
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,4 +30,11 @@ public class BoardService {
     return boardRepository.findAll(pageable);
   }
 
+  public Board findById(Long id) {
+    Optional<Board> optionalBoard = boardRepository.findById(id);
+    if (optionalBoard.isPresent()) {
+      return optionalBoard.get();
+    }
+    throw new RuntimeException();
+  }
 }

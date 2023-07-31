@@ -7,6 +7,15 @@
   <title>글목록</title>
   <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
   <script defer th:src="@{/js/bootstrap.min.js}"></script>
+  <style>
+    a {
+      text-decoration: none;
+      color: black;
+    }
+    a:hover {
+      color: black;
+    }
+  </style>
 </head>
 
 <body>
@@ -23,7 +32,7 @@
     <tbody>
     <tr th:each="board, loop : ${paging}">
       <td th:text="${paging.getTotalElements() - (paging.getNumber() * paging.getSize()) - loop.index}"></td>
-      <td th:text="${board.title}"></td>
+      <td><a th:href="@{|/board/${board.id}|}" th:text="${board.title}"></a></td>
     </tr>
     </tbody>
   </table>
@@ -64,7 +73,7 @@
   </form>
 
   <div class="mb-3 text-center">
-    <button class="btn btn-dark w-100" th:onclick="|location.href='@{/board/add}'|">글쓰기</button>
+    <button class="btn btn-lg btn-primary w-100" th:onclick="|location.href='@{/board/add}'|">글쓰기</button>
   </div>
 </section>
 <script>
